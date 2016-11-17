@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/com_kakao_account_button_background"
+    tools:context="com.quadcore.MainActivity">
+
+
+    <TextView
+        android:text="AVG RSSI 4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rssiAndMeter4"
+        android:layout_above="@+id/rssiAndMeter1"
+        android:layout_alignParentStart="true"
+        android:textSize="5pt"/>
+
+    <TextView
+        android:text="AVG RSSI 1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rssiAndMeter1"
+        android:layout_above="@+id/rssiAndMeter2"
+        android:layout_alignParentStart="true"
+        android:textSize="5pt"/>
+
+    <TextView
+        android:text="AVG RSSI 2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rssiAndMeter2"
+        android:textSize="5pt"
+        android:layout_above="@+id/rssiAndMeter3"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="AVG RSSI 3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rssiAndMeter3"
+        android:layout_above="@+id/GeofenceSettingsBtn"
+        android:layout_alignParentStart="true"
+        android:textSize="5pt"/>
+
+
+    <ToggleButton
+        android:text="ToggleButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/locationThreadToggleBtn"
+        android:onClick="onLocationThreadToggleBtnClicked"
+        android:background="@drawable/toggle"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_marginBottom="5dp"/>
+
+    <ToggleButton
+        android:text="ToggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:id="@+id/mapOrFormulaToggleButton"
+        android:textOn="Formula"
+        android:textOff="Mapping"
+        android:onClick="onMapOrFormulaToggleButtonClicked"
+        android:layout_above="@+id/geofenceView_main"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/GeofenceSettingsBtn"
+        android:background="@drawable/custome_theme_1"
+        android:layout_marginBottom="5dp"
+        />
+
+    <com.quadcore.GeofenceView_main
+        android:id="@+id/geofenceView_main"
+        android:layout_width="wrap_content"
+        android:layout_height="500dp"
+        android:background="@drawable/fenceborder"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/GeofenceSettingsBtn" />
+
+    <Button
+        android:text="Setting"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:id="@+id/GeofenceSettingsBtn"
+        android:onClick="onGeofenceSettingsBtnClicked"
+        android:layout_below="@+id/locationThreadToggleBtn"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/custome_theme_1"
+        android:layout_marginBottom="5dp"/>
+
+    <Button
+        android:text="RSSI Check"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:id="@+id/rssiCheckBtn"
+        android:onClick="onRssiCheckBtnClicked"
+        android:background="@drawable/custome_theme_1"
+        android:layout_below="@+id/rssiAndMeter3"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="5dp"/>
+
+
+
+</RelativeLayout>

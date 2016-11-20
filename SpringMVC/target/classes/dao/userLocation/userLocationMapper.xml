@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="userLocationSQL">
+
+    <insert id="insertUserLocation" parameterType="userLocationDTO">
+        INSERT INTO USERLOCATION VALUES(
+                                    #{x}
+                                   ,#{y}
+                                   ,#{geofenceId}
+                                   ,#{date2}
+                                   ,'bong'
+                                )
+    </insert>
+    
+    <select id="getRecentUsersLocation" parameterType="Long" resultType="userLocationDTO">
+    	<!-- 각 유저마다 최신 위치 1개씩 얻어온다 -->
+    	SELECT X,Y,USERID,DATE2,GEOFENCEID
+		  FROM (
+		        SELECT X,Y,USERID,DATE2, GEOFENCEID,
+		               ROW_NUMBER() OVER(PARTITION BY USERID ORDER BY DATE2 DESC) rn
+		          FROM USERLOCATION
+		         WHERE GEOFENCEID=#{geofenceId}
+		        ) recent
+		 WHERE rn = 1
+    </select>
+</mapper>

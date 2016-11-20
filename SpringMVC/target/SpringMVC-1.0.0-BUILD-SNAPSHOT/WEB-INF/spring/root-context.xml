@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<context:annotation-config/>
+    <!-- Connection Pool & DataSource -->
+    <bean id="dataSource"
+        class="org.apache.commons.dbcp.BasicDataSource"
+        p:driverClassName="oracle.jdbc.driver.OracleDriver"
+        p:url="jdbc:oracle:thin:@localhost:1521:xe"
+        p:username="bong"
+        p:password="bong"
+        p:initialSize="5"
+        p:maxActive="10">
+    </bean>
+        
+    <!-- SqlSessionFactory -->
+    <bean id="sqlSessionFactory" 
+        class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:../spring/MyBatis-Config.xml"/>  
+        <property name="transactionFactory">
+            <bean class="org.mybatis.spring.transaction.SpringManagedTransactionFactory"></bean>
+        </property>
+    </bean>
+    
+    <!-- SqlSession -->
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>    
+    
+    <bean id="loginDAO" class="login.bean.LoginDAOMyBatis">
+        <property name="sqlSession" ref="sqlSession"/>
+    </bean>
+	
+	<bean id="geofenceDAO" class="dao.geofence.GeofenceDAOMyBatis">
+		<property name="sqlSession" ref="sqlSession"/>
+	</bean>
+
+</beans>

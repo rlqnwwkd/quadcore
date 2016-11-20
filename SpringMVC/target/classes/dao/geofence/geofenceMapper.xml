@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="geofenceSQL">
+
+    <insert id="insertGeofence" parameterType="geofenceDTO">
+        INSERT INTO GEOFENCE VALUES(
+                                    #{BC1X}
+                                   ,#{BC1Y}
+                                   ,#{BC2X}
+                                   ,#{BC2Y}
+                                   ,#{BC3X}
+                                   ,#{BC3Y}
+                                   ,#{BC4X}
+                                   ,#{BC4Y}
+                                   ,#{id}
+                                   ,#{name} 
+                                   ,#{ZONE_X1}
+                                   ,#{ZONE_Y1}
+                                   ,#{ZONE_X2}
+                                   ,#{ZONE_Y2} 
+                                   ,#{type}
+                                )
+    </insert>
+    
+    <delete id="deleteGeofence" parameterType="Long">
+    	DELETE FROM GEOFENCE WHERE ID=#{id}
+    </delete>
+    
+    <select id="selectGeofence" parameterType="Long" resultType="geofenceDTO">
+    	SELECT * FROM GEOFENCE WHERE ID=#{id}
+    </select>
+    
+</mapper>

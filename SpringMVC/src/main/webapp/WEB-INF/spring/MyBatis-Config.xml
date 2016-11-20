@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <typeAliases>
+        <typeAlias type="login.bean.LoginDTO" alias="login"/>
+    	<typeAlias type="dao.geofence.GeofenceDTO" alias="geofenceDTO"/>
+    	<typeAlias type="dao.userLocation.UserLocationDTO" alias="userLocationDTO"/>
+    	<typeAlias type="dao.product.ProductDTO" alias="productDTO"/>
+    </typeAliases>
+    <mappers>
+    	<mapper resource="dao/geofence/geofenceMapper.xml"/>
+        <mapper resource="login/bean/loginMapper.xml"/>
+        <mapper resource="dao/userLocation/userLocationMapper.xml"/>
+        <mapper resource="dao/product/productMapper.xml"/>
+    </mappers>
+</configuration>

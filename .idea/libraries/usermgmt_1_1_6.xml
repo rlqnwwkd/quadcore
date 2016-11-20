@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="usermgmt-1.1.6">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.kakao.sdk/usermgmt/1.1.6/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.kakao.sdk/usermgmt/1.1.6/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.kakao.sdk/usermgmt/1.1.6/5ea837d0a4753df7936134ae2b38662fead402dd/usermgmt-1.1.6-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Canvas;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
@@ -13,31 +15,49 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.estimote.sdk.SystemRequirementsChecker;
 import com.estimote.sdk.repackaged.retrofit_v1_9_0.retrofit.http.PartMap;
 import com.kakao.usermgmt.response.model.UserProfile;
 import com.quadcore.Mock.MockServer;
+import com.quadcore.Room.Room_Paldal1;
 import com.quadcore.Room.Room_Rectangle_12_7;
 import com.quadcore.Room.Room_Rectangle_6_6;
 import com.quadcore.Room.Room_Triangle_3_3;
 import com.quadcore.Room.Room_Triangle_6_6;
+import com.quadcore.Room_Activity.GeofenceSettingsActivity_Rectangle_6_6;
 import com.quadcore.Services.BackgroundBeaconMonitoringService;
 import com.quadcore.Services.BackgroundBeaconRangingService;
 import com.quadcore.Services.UserPositionUpdateService;
 import com.quadcore.Utils.Constants;
 import com.quadcore.Utils.PaymentZone;
 import com.quadcore.Utils.Point3D;
+import com.quadcore.Utils.QuadCoreMapper;
 import com.quadcore.Utils.ServerInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    public static Animation animation1, animation2;
+
+    // animation
+    public static ImageView userImg;
 
     private static Context mainContext;
     // 룸 타입
@@ -69,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
     // widgets for admin
     ////////////////////////
     public static Button geofenceSettingsBtn, rssiCheckBtn, mapOrFormulaToggleButton;
-    public static TextView rssiAndMeter1,rssiAndMeter2,rssiAndMeter3, rssiAndMeter4;
+    public static TextView rssiAndMeter1,rssiAndMeter2,rssiAndMeter3;
+            //rssiAndMeter4;
 
 
 
@@ -95,25 +116,36 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(Constants.QUADCORE_LOG,"MainActivity : onCreate()");
+        Log.d(Constants.QUADCORE_LOG, "MainActivity : onCreate()");
+        super.onCreate(savedInstanceState);
         startActivity(new Intent(this, LoadingActivity.class));
 
-        super.onCreate(savedInstanceState);
+
+        /////////////////////////////////////////////////////////////////
+        // 블루투스 허용 메시지 팝업 - 카톡 로그인으로 넣기
+        ///////////////////////////////////////////////////////////////
+        SystemRequirementsChecker.checkWithDefaultDialogs(this);
+
         setContentView(R.layout.activity_main);
         mainContext = this.getApplicationContext();
 
+        // animation
+        userImg = (ImageView)findViewById(R.id.userImage);
+        userImg.bringToFront();
+        userImg.setVisibility(View.GONE);
+
         // 관리자 버튼
-        geofenceSettingsBtn = (Button)findViewById(R.id.GeofenceSettingsBtn);
-        rssiCheckBtn = (Button)findViewById(R.id.rssiCheckBtn);
-        mapOrFormulaToggleButton = (ToggleButton)findViewById(R.id.mapOrFormulaToggleButton);
+        geofenceSettingsBtn = (Button) findViewById(R.id.GeofenceSettingsBtn);
+        rssiCheckBtn = (Button) findViewById(R.id.rssiCheckBtn);
+        //mapOrFormulaToggleButton = (ToggleButton) findViewById(R.id.mapOrFormulaToggleButton);
         // 평균 RSSI 값
-        rssiAndMeter1 = (TextView)findViewById(R.id.rssiAndMeter1);
-        rssiAndMeter2 = (TextView)findViewById(R.id.rssiAndMeter2);
-        rssiAndMeter3 = (TextView)findViewById(R.id.rssiAndMeter3);
-        rssiAndMeter4 = (TextView)findViewById(R.id.rssiAndMeter4);
+        rssiAndMeter1 = (TextView) findViewById(R.id.rssiAndMeter1);
+        rssiAndMeter2 = (TextView) findViewById(R.id.rssiAndMeter2);
+        rssiAndMeter3 = (TextView) findViewById(R.id.rssiAndMeter3);
+        //rssiAndMeter4 = (TextView) findViewById(R.id.rssiAndMeter4);
 
         // on off btn
-        locationThreadToggleBtn = (Button)findViewById(R.id.locationThreadToggleBtn);
+        locationThreadToggleBtn = (Button) findViewById(R.id.locationThreadToggleBtn);
 
         /////////////////////////////
         // 유저정보 가져오기
@@ -121,10 +153,6 @@ public class MainActivity extends AppCompatActivity {
         //Toast.makeText(getApplicationContext(),""+userProfile.getNickname(),Toast.LENGTH_SHORT).show();
 
 
-        /////////////////////////////////////////////////////////////////
-        // 블루투스 허용 메시지 팝업
-        ///////////////////////////////////////////////////////////////
-        SystemRequirementsChecker.checkWithDefaultDialogs(this);
 
 
         ///////////////////////////////////////////////////
@@ -146,28 +174,13 @@ public class MainActivity extends AppCompatActivity {
         startService(userPositionUpdateServiceIntent);
 
 
-        ////////////////////////////////////////////////////////////
-        // BackgroundBeaconMonitoringService 시작
-        // 서비스는 비콘을 모니터링한다, 발견하면 더욱 빠른 주기로 스캔하는 Ranging을 실행한다
-        //////////////////////////////////////////////////////////////
-       // if(backgroundBeaconMonitoringServiceIntent==null)
-       // {
-            Log.d(Constants.QUADCORE_LOG,"----------------  Beacon Monitoring Service create!");
-            backgroundBeaconMonitoringServiceIntent = new Intent(this, BackgroundBeaconMonitoringService.class);
-            startService(backgroundBeaconMonitoringServiceIntent);
-     //   }
+        Log.d(Constants.QUADCORE_LOG,"------------------  Beacon Ranging Service create!");
+        backgroundBeaconRangingServiceIntent = new Intent(this, BackgroundBeaconRangingService.class);
 
 
-        ////////////////////////////////////////////////////////////
-        // BackgroundBeaconRangingService 생성, 시작은 Monitoring되면 시작한다
-        // 서비스는 게속 비콘들을 스캔하고, 최근 신호값 n개를 유지한다
-        //////////////////////////////////////////////////////////////
-      //  if(backgroundBeaconRangingServiceIntent==null)
-       // {
-            Log.d(Constants.QUADCORE_LOG,"------------------  Beacon Ranging Service create!");
-            backgroundBeaconRangingServiceIntent = new Intent(this, BackgroundBeaconRangingService.class);
-
-        //}
+        Log.d(Constants.QUADCORE_LOG,"----------------  Beacon Monitoring Service create!");
+        backgroundBeaconMonitoringServiceIntent = new Intent(this, BackgroundBeaconMonitoringService.class);
+        startService(backgroundBeaconMonitoringServiceIntent);
 
 
         ///////////////////////////////////////////////////
@@ -175,8 +188,7 @@ public class MainActivity extends AppCompatActivity {
         //////////////////////////////////////////////////
         // 사용자 로직 적용하기
         /*
-        if(userProfile.getNickname().equals("admin") == false)
-        {
+        if(userProfile.getNickname().equals("admin") == false) {
             geofenceSettingsBtn.setVisibility(View.GONE);
             rssiCheckBtn.setVisibility(View.GONE);
             mapOrFormulaToggleButton.setVisibility(View.GONE);
@@ -184,11 +196,8 @@ public class MainActivity extends AppCompatActivity {
             rssiAndMeter2.setVisibility(View.GONE);
             rssiAndMeter3.setVisibility(View.GONE);
             rssiAndMeter4.setVisibility(View.GONE);
-
         }
         */
-
-
     }
 
     @Override
@@ -209,12 +218,19 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    // 장바구니
+    public void onCartBtnClicked(View mView)
+    {
+        final Intent intent = new Intent(this, CartCheckActivity.class);
+        startActivity(intent);
+    }
 
     ////////////////////////////////////////////////////
     // RSSI -> Cmter 변환 방식 선택(매핑 / 공식)토글버튼
     ////////////////////////////////////////////////////
     public void onMapOrFormulaToggleButtonClicked(View mView)
     {
+
         // 공식 사용
         if ( ((ToggleButton)mView).isChecked() )
         {
@@ -250,6 +266,14 @@ public class MainActivity extends AppCompatActivity {
                 GeofenceView_main.bc1.setR(0);
                 GeofenceView_main.bc2.setR(0);
                 GeofenceView_main.bc3.setR(0);
+
+                // 사각형이면
+                if( MainActivity.roomType == Constants._ROOM_TYPE_RECTANGLE_6_6
+                        || MainActivity.roomType == Constants._ROOM_TYPE_RECTANGLE_12_7
+                        || MainActivity.roomType == Constants._ROOM_TYPE_CUSTOMIZE )
+                {
+                    GeofenceView_main.bc4.setR(0);
+                }
             }
             ((GeofenceView_main)view).invalidate();
         }
@@ -327,13 +351,24 @@ public class MainActivity extends AppCompatActivity {
             GeofenceView_main.avgRightDist = Room_Triangle_3_3.yLength;
             GeofenceView_main.screenRatio=Room_Triangle_3_3.screenRatio;
         }
+        else if(roomType== Constants._ROOM_TYPE_Paldal1)
+        {
+            GeofenceView_main.avgTopDist = Room_Paldal1.xLength;
+            GeofenceView_main.avgRightDist = Room_Paldal1.yLength;
+            GeofenceView_main.screenRatio=Room_Paldal1.screenRatio;
+        }
 
-        ((GeofenceView_main)view).bc1=bc1;
-        ((GeofenceView_main)view).bc2=bc2;
-        ((GeofenceView_main)view).bc3=bc3;
-        ((GeofenceView_main)view).bc4=bc4;
-        ((GeofenceView_main)view).locatedBeaconCnt=3;
-        ((GeofenceView_main)view).invalidate();
+        if((GeofenceView_main)view != null)
+        {
+            ((GeofenceView_main)view).bc1=bc1;
+            ((GeofenceView_main)view).bc2=bc2;
+            ((GeofenceView_main)view).bc3=bc3;
+            ((GeofenceView_main)view).bc4=bc4;
+            ((GeofenceView_main)view).locatedBeaconCnt=3;
+            ((GeofenceView_main)view).invalidate();
+            //UserPositionUpdateService.lastUserPosition=null;
+        }
+
         MainActivity.isGeofenceInstalled = true;
 
     }
@@ -351,10 +386,211 @@ public class MainActivity extends AppCompatActivity {
     ////////////////////////////////////////
     // 페이먼트 실행
     //////////////////////////////////////////
-    public static void popupThePayment()
+    public static void popupThePayment(List<Integer> nearStickers)
     {
-        final Intent intent = new Intent(mainContext, PaymentActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mainContext.startActivity(intent);
+        if(nearStickers.size()==0)
+        {
+            Log.d(Constants.QUADCORE_LOG,"PAY START : NO NEAR PRODUCT : PAY SKIP");
+        }
+        else
+        {
+            final Intent intent = new Intent(mainContext, PaymentActivity.class);
+            int[] idArr = new int[nearStickers.size()];
+            for(int i=0;i<nearStickers.size();i++)
+            {
+                idArr[i] = nearStickers.get(i);
+            }
+
+            intent.putExtra("stickerId",idArr);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mainContext.startActivity(intent);
+        }
     }
+
+    public static void changeUserPosition(int last, int current)
+    {
+        Point3D lastP = Room_Paldal1.getPosition(last);
+        Point3D currentP = Room_Paldal1.getPosition(current);
+
+        Log.d(Constants.QUADCORE_LOG,"Animation : "+last+"->"+current);
+
+        if( last == 0)
+        {
+
+            if( current == 5 || current == 7)
+            {
+                Point3D middleP = Room_Paldal1.getPosition(6);
+                startAnimationThread_2(lastP, middleP, currentP);
+            }
+            else
+            {
+                startAnimationThread(lastP, currentP);
+            }
+        }
+
+        else if( last == 1)
+        {
+            if( current == 3 || current == 6)
+            {
+                startAnimationThread(lastP, currentP);
+            }
+            else if( current == 5 || current == 7)
+            {
+                Point3D middleP = Room_Paldal1.pos6_up;
+                startAnimationThread_2(lastP, middleP, currentP);
+            }
+        }
+
+        else if( last == 3 )
+        {
+            startAnimationThread(lastP, currentP);
+        }
+
+        else if( last == 5)
+        {
+            if(current == 8 ||  current == 7)
+            {
+                Point3D middleP = Room_Paldal1.getPosition(6);
+                startAnimationThread_2(lastP, middleP, currentP);
+            }
+            else if(current == 1)
+            {
+                Point3D middleP = Room_Paldal1.pos6_up;
+                startAnimationThread_2(lastP, middleP, currentP);
+            }
+            else
+            {
+                startAnimationThread(lastP, currentP);
+            }
+        }
+
+        else if( last == 7)
+        {
+            if(current == 8 ||  current == 5)
+            {
+                Point3D middleP = Room_Paldal1.getPosition(6);
+                startAnimationThread_2(lastP, middleP, currentP);
+            }
+            else if(current == 1)
+            {
+                Point3D middleP = Room_Paldal1.pos6_up;
+                startAnimationThread_2(lastP, middleP, currentP);
+            }
+            else
+            {
+                startAnimationThread(lastP, currentP);
+            }
+        }
+
+        else if( last == 6 )
+        {
+            startAnimationThread(lastP, currentP);
+        }
+
+        else if( last == 8)
+        {
+            if(current == 5 ||  current == 7)
+            {
+                Point3D middleP = Room_Paldal1.getPosition(6);
+                startAnimationThread_2(lastP, middleP, currentP);
+            }
+            else
+            {
+                startAnimationThread(lastP, currentP);
+            }
+        }
+        else
+        {
+            startAnimationThread(lastP, currentP);
+        }
+    }
+
+
+    private static void startAnimationThread_2(final Point3D p1, final Point3D p2, final Point3D p3 ) {
+        Handler mHandler = new Handler(Looper.getMainLooper());
+
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                AnimationSet set = new AnimationSet(true); // 여러 애니메이션을 관리한다
+                set.setFillEnabled(true);
+                set.setFillAfter(true); // 이미지가 애니메이션이 종료된 위치에서 머무른다.
+
+
+                // lastP->currentP로 움직이는 애니메이션 Animation.ABSOLUTE,
+                //Animation animation1 = new TranslateAnimation(lastP.getX(),currentP.getX(),lastP.getY(),currentP.getY());
+                animation1 = new TranslateAnimation(Animation.ABSOLUTE, p1.getX()   , Animation.ABSOLUTE, p2.getX()
+                                                             ,Animation.ABSOLUTE, p1.getY()    , Animation.ABSOLUTE,p2.getY());
+
+
+                animation1.setDuration(1000); // 2초 동안 움직인다
+                animation1.setStartOffset(0);
+                animation1.setFillEnabled(true);
+                animation1.setFillAfter(true);
+                animation1.setInterpolator(AnimationUtils.loadInterpolator(MainActivity.mainContext, android.R.anim.decelerate_interpolator));
+
+                animation1.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        userImg.startAnimation(animation2);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                // 애니메이션 추가
+                set.addAnimation(animation1);
+
+
+               // Animation animation2 = new TranslateAnimation(currentP.getX(),lastP.getX(),currentP.getY(),lastP.getY());
+                animation2 = new TranslateAnimation(Animation.ABSOLUTE, p2.getX()   , Animation.ABSOLUTE, p3.getX()
+                                                             ,Animation.ABSOLUTE, p2.getY()    , Animation.ABSOLUTE,p3.getY());
+                animation2.setDuration(1000); // 2초 동안 움직인다
+                animation2.setStartOffset(0); // 2초 뒤에 실행
+                animation2.setFillEnabled(true);
+                animation2.setFillAfter(true);
+                animation2.setInterpolator(AnimationUtils.loadInterpolator(MainActivity.mainContext, android.R.anim.decelerate_interpolator));
+
+                // 애니메이션 추가
+                set.addAnimation(animation2);
+
+
+                // set에 들어있는 애니매이션 시작
+                userImg.startAnimation(animation1);
+                userImg.setVisibility(View.VISIBLE);
+            }
+        }, 0);
+    }
+
+    private static void startAnimationThread(final Point3D lastP, final Point3D currentP) {
+        Handler mHandler = new Handler(Looper.getMainLooper());
+
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                animation1 = new TranslateAnimation(Animation.ABSOLUTE, lastP.getX()   , Animation.ABSOLUTE, currentP.getX()
+                        ,Animation.ABSOLUTE, lastP.getY()    , Animation.ABSOLUTE,currentP.getY());
+
+                animation1.setDuration(2000); // 2초 동안 움직인다
+                animation1.setStartOffset(0);
+                animation1.setFillEnabled(true);
+                animation1.setFillAfter(true);
+                animation1.setInterpolator(AnimationUtils.loadInterpolator(MainActivity.mainContext, android.R.anim.decelerate_interpolator));
+
+                // set에 들어있는 애니매이션 시작
+                userImg.startAnimation(animation1);
+                userImg.setVisibility(View.VISIBLE);
+            }
+        }, 0);
+    }
+
 }

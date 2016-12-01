@@ -12,42 +12,6 @@
     tools:context="com.quadcore.MainActivity">
 
 
-    <TextView
-        android:text="AVG RSSI 4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/rssiAndMeter4"
-        android:layout_above="@+id/rssiAndMeter1"
-        android:layout_alignParentStart="true"
-        android:textSize="5pt"/>
-
-    <TextView
-        android:text="AVG RSSI 1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/rssiAndMeter1"
-        android:layout_above="@+id/rssiAndMeter2"
-        android:layout_alignParentStart="true"
-        android:textSize="5pt"/>
-
-    <TextView
-        android:text="AVG RSSI 2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/rssiAndMeter2"
-        android:textSize="5pt"
-        android:layout_above="@+id/rssiAndMeter3"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:text="AVG RSSI 3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/rssiAndMeter3"
-        android:layout_above="@+id/GeofenceSettingsBtn"
-        android:layout_alignParentStart="true"
-        android:textSize="5pt"/>
-
 
     <ToggleButton
         android:text="ToggleButton"
@@ -61,39 +25,65 @@
         style="?android:attr/borderlessButtonStyle"
         android:layout_marginBottom="5dp"/>
 
-    <ToggleButton
-        android:text="ToggleButton"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:id="@+id/mapOrFormulaToggleButton"
-        android:textOn="Formula"
-        android:textOff="Mapping"
-        android:onClick="onMapOrFormulaToggleButtonClicked"
-        android:layout_above="@+id/geofenceView_main"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/GeofenceSettingsBtn"
-        android:background="@drawable/custome_theme_1"
-        android:layout_marginBottom="5dp"
-        />
-
     <com.quadcore.GeofenceView_main
         android:id="@+id/geofenceView_main"
         android:layout_width="wrap_content"
         android:layout_height="500dp"
         android:background="@drawable/fenceborder"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/GeofenceSettingsBtn" />
+        android:layout_below="@+id/GeofenceSettingsBtn">
+    </com.quadcore.GeofenceView_main>
 
-    <Button
-        android:text="Setting"
+    <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:id="@+id/GeofenceSettingsBtn"
-        android:onClick="onGeofenceSettingsBtnClicked"
-        android:layout_below="@+id/locationThreadToggleBtn"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/custome_theme_1"
-        android:layout_marginBottom="5dp"/>
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:id="@+id/userImage"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/user" />
+
+
+
+    <TextView
+        android:text="AVG RSSI 1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rssiAndMeter1"
+        android:textSize="5pt"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+
+    <TextView
+        android:text="AVG RSSI 2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rssiAndMeter2"
+        android:textSize="5pt"
+        android:layout_below="@+id/rssiAndMeter1"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="AVG RSSI 3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rssiAndMeter3"
+        android:textSize="5pt"
+        android:layout_below="@+id/rssiAndMeter2"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="15dp"/>
+
+    <!--
+    <TextView
+        android:text="AVG RSSI 4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rssiAndMeter4"
+        android:textSize="5pt"
+        android:layout_above="@+id/GeofenceSettingsBtn"
+        android:layout_alignParentStart="true"
+        />
+    -->
 
     <Button
         android:text="RSSI Check"
@@ -103,9 +93,45 @@
         android:onClick="onRssiCheckBtnClicked"
         android:background="@drawable/custome_theme_1"
         android:layout_below="@+id/rssiAndMeter3"
-        android:layout_alignParentStart="true"
+        android:layout_marginBottom="5dp"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="Setting"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:id="@+id/GeofenceSettingsBtn"
+        android:onClick="onGeofenceSettingsBtnClicked"
+        android:background="@drawable/custome_theme_1"
+        android:layout_below="@+id/locationThreadToggleBtn"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="5dp"/>
 
+    <Button
+        android:text="Cart"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:id="@+id/button4"
+        android:layout_above="@+id/geofenceView_main"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/custome_theme_1"
+        android:layout_marginBottom="5dp"
+        android:onClick="onCartBtnClicked"/>
+
+    <!--
+    <ToggleButton
+        android:text="ToggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:id="@+id/mapOrFormulaToggleButton"
+        android:textOn="Formula"
+        android:textOff="Mapping"
+        android:onClick="onMapOrFormulaToggleButtonClicked"
+        android:background="@drawable/custome_theme_1"
+        android:layout_alignBaseline="@+id/GeofenceSettingsBtn"
+        android:layout_alignBottom="@+id/GeofenceSettingsBtn"
+        android:layout_alignParentEnd="true" />
+        -->
 
 
 </RelativeLayout>

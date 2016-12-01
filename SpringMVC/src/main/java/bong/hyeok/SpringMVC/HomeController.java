@@ -60,16 +60,38 @@ public class HomeController {
 	////////////////////////////////////////////
 	@RequestMapping(value="/payment")
 	public String payment(Model model, @RequestParam Map<String,String> params){
-		String param = params.get("stickerId");
-		int stickerId = Integer.parseInt(param);
+		String param_stickerId = params.get("stickerId");
+		String[] stickerIds = param_stickerId.split(",");
 		String id = params.get("id");
 		String name = params.get("name");
+		ProductDTO productDTO = new ProductDTO();
 		
-		ProductDTO productDTO = productDAO.selectProduct(stickerId);
-		System.out.println(""+productDTO.getName()+","+productDTO.getPrice()+id+name);
+		String product_name="";
+		int price = 0;
+		
+		for(int i=0;i<stickerIds.length;i++)
+		{
+			int stickerId = Integer.parseInt(stickerIds[i]);
+			
+			ProductDTO product = productDAO.selectProduct(stickerId);
+			if(i==0)
+			{
+				product_name+=product.getName();
+			}
+			else
+			{
+				product_name+=", "+product.getName();
+			}
+			price += product.getPrice();
+		}
+		
+		productDTO.setName(product_name);
+		productDTO.setPrice(price);
 		model.addAttribute("productDTO", productDTO);	
 		model.addAttribute("id",id);
 		model.addAttribute("name", name);
+		System.out.println(""+productDTO.getName()+","+productDTO.getPrice()+id+name);
+		
 		return "payment";
 	}
 	
@@ -164,6 +186,36 @@ public class HomeController {
 	}
 	
 	
+
+	//////////////////////////////////////////
+	// 상품 ID로 상품 정보 SELECT 후 보내줌
+	/////////////////////////////////////////
+	@RequestMapping(value="/selectProductInfo")
+	@ResponseBody
+	public String selectProductInfo(@RequestParam Map<String, String> params)
+	{
+		String productInfo="";
+		String majors = params.get("majors");
+		System.out.println("majors : "+majors);
+		String[] majors_split = majors.split(",");
+		
+		
+		for(int i=0;i<majors_split.length;i++)
+		{
+			ProductDTO productDTO = productDAO.selectProduct(Integer.parseInt(majors_split[i]));
+			if(i==0)
+			{
+				productInfo+=productDTO.getName()+","+productDTO.getPrice();
+			}
+			else
+			{
+				productInfo+=","+productDTO.getName()+","+productDTO.getPrice();
+			}
+		}
+		
+		return productInfo;
+	}
+	
 	//////////////////////////////////////////
 	// 사용자 위치 DB에 저장
 	/////////////////////////////////////////
@@ -172,9 +224,15 @@ public class HomeController {
 	public String insertUserLocation(@RequestParam Map<String, String> params)
 	{
 		String response="INSERT:USER LOCATION: OK";
+		String userId = params.get("userId");
 		long id = Long.parseLong(params.get("id"));
 		double userX = Double.parseDouble(params.get("userPosition").split(",")[0]);
 		double userY = Double.parseDouble(params.get("userPosition").split(",")[1]);
+		
+		if(userId == null)
+		{
+			userId = "anony";
+		}
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-kk-mm-ss.SSS");
 		String nowDate = sdf.format(new Date());
@@ -184,7 +242,7 @@ public class HomeController {
 		userLocationDTO.setGeofenceId(id);
 		userLocationDTO.setX(userX);
 		userLocationDTO.setY(userY);
-		
+		userLocationDTO.setUserId(userId);
 		userLocationDAO.insertUserLocation(userLocationDTO);
 		return response;
 	}

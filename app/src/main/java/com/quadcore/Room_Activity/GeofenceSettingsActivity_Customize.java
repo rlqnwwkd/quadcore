@@ -154,7 +154,7 @@ public class GeofenceSettingsActivity_Customize extends AppCompatActivity {
         // 거리를 조금 넓게 잡아야됨
         /////////////////////////////////////////////////////////////////////////
         // 공식 또는 매핑사용해서 거리를 얻는다
-        double dist = MyMath.getDistUsingFormulaOrMapping(avgRssiOfBeacon1);
+        double dist = MyMath.getDistUsingFormulaOrMapping(avgRssiOfBeacon1, 1);
 
         ////////////////////////////////////
         // dist = 테스트할 때 수동 삽입
@@ -190,7 +190,7 @@ public class GeofenceSettingsActivity_Customize extends AppCompatActivity {
         // 평균 RSSI값으로부터 거리 구하기  -> 노가다 매핑 적용하기
         ////////////////////////////////////////////////////////////////////
 
-        double dist = MyMath.getDistUsingFormulaOrMapping(avgRssiOfBeacon2);
+        double dist = MyMath.getDistUsingFormulaOrMapping(avgRssiOfBeacon2,2);
 
         ////////////////////////////////////
         // dist = 테스트할 때 수동 삽입
@@ -418,7 +418,7 @@ public class GeofenceSettingsActivity_Customize extends AppCompatActivity {
                                         +param_bc+"&"+param_id+"&"+param_name+"&"+param_zone+"&"+param_type);
 
                 ServerInfo.urlConnection = (HttpURLConnection)ServerInfo.url.openConnection();
-                ServerInfo.urlConnection.setConnectTimeout(3000);
+                ServerInfo.urlConnection.setConnectTimeout(Constants._SERVER_TIMEOUT);
 
                 int responseCode = ServerInfo.urlConnection.getResponseCode();
 

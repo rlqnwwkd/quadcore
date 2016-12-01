@@ -9,7 +9,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.quadcore.LoginActivity">
+    tools:context="com.quadcore.LoginActivity"
+    android:background="@color/white">
 
     <com.kakao.usermgmt.LoginButton
         android:id="@+id/com_kakao_login"
@@ -25,9 +26,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/quadcore_logo"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="35dp"
         android:id="@+id/imageView2"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        style="?android:attr/borderlessButtonStyle" />
 
 </RelativeLayout>

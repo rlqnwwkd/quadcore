@@ -18,13 +18,14 @@ public class ServerInfo {
     //////////////////////////////////////
     // 테스트모드 / 서버모드
     //////////////////////////////////////
-    public static boolean isConnected = false;
+    public static boolean isConnected = true;
 
     public static URL url;
     public static HttpURLConnection urlConnection = null;
-    public static String serverIP="192.168.0.5";
+    public static String serverIP="192.168.43.97";
     public static String serverPort="8080";
     public static final String paymentUrl = "http://"+serverIP+":"+serverPort+"/SpringMVC/payment.do";
+
 
     public static String readStream(InputStream in)
     {

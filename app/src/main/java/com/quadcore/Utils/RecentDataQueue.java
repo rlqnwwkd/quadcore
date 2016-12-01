@@ -17,6 +17,7 @@ import dalvik.annotation.TestTargetClass;
 public class RecentDataQueue<E> {
     private Queue<E> queue;
     private int maxSize;
+    private long recentTime;
 
     public int getSize(){
         return queue.size();
@@ -35,10 +36,18 @@ public class RecentDataQueue<E> {
         {
             queue.remove();
         }
+        recentTime = System.currentTimeMillis();
     }
 
     public ArrayList<E> getAllDatas()
     {
         return new ArrayList<E>(queue);
+    }
+
+    public long getRecentTime() {
+        return recentTime;
+    }
+    public void setRecentTime(long recentTime) {
+        this.recentTime = recentTime;
     }
 }

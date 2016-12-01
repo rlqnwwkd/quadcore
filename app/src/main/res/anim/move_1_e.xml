@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<set
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:anim/linear_interpolator"
+    android:fillAfter="true">
+
+    <!-- 결과의 y = 683 / x = -24 -->
+    <translate
+        android:fromXDelta="620"
+        android:toXDelta="1030"
+        android:fromYDelta="900"
+        android:toYDelta="850"
+        android:duration="2000" />
+
+</set>
+

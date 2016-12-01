@@ -12,7 +12,17 @@ public class Point3D {
     private float y;
     private float z;
     private float r;
+    private int zoneNumber;
 
+    public void setZoneNumber(int n)
+    {
+        this.zoneNumber=n;
+    }
+
+    public int getZoneNumber()
+    {
+        return zoneNumber;
+    }
     public Point3D(){ 	}
     public Point3D(float x, float y )
     {

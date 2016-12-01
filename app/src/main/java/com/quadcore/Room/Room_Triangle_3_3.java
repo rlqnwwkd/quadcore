@@ -32,8 +32,8 @@ public class Room_Triangle_3_3 {
     static{
         screenRatio =((float)(Constants.viewWidth / xLength));
         bc1Position = new Point3D((float)xLength/2 ,0);
-        bc2Position = new Point3D(0, (float)yLength);
-        bc3Position = new Point3D( (float)xLength, (float)yLength);
+        bc2Position = new Point3D((float)xLength, (float)yLength);
+        bc3Position = new Point3D( 0, (float)yLength);
         bc4Position = new Point3D(0,0);
 
         leftUp = new Point3D(0, (float)(yLength+padding));

@@ -11,7 +11,7 @@
                                    ,#{y}
                                    ,#{geofenceId}
                                    ,#{date2}
-                                   ,'bong'
+                                   ,#{userId}
                                 )
     </insert>
     

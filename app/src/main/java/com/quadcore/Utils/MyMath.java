@@ -24,7 +24,7 @@ public class MyMath {
     }
 
     // 공식 / 매핑 사용해서 거리 얻음
-    public static double getDistUsingFormulaOrMapping(double avgRssi)
+    public static double getDistUsingFormulaOrMapping(double avgRssi, int type)
     {
         double dist = 0.0;
         // 공식
@@ -35,7 +35,7 @@ public class MyMath {
         // 맵핑
         else
         {
-            dist = RssiToDist.getDistance(avgRssi);
+            dist = RssiToDist.getDistance(avgRssi, type);
         }
         return dist;
     }

@@ -165,7 +165,7 @@ public class GeofenceSettingsActivity_Rectangle_12_7 extends AppCompatActivity {
                 // 전송
                 ServerInfo.urlConnection = (HttpURLConnection) ServerInfo.url.openConnection();
                 // 타임아웃
-                ServerInfo.urlConnection.setConnectTimeout(3000);
+                ServerInfo.urlConnection.setConnectTimeout(Constants._SERVER_TIMEOUT);
                 // 결과
                 int responseCode = ServerInfo.urlConnection.getResponseCode();
 

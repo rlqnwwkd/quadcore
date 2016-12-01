@@ -18,13 +18,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <!--
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-            -->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".Room_Activity.GeofenceSettingsActivity_Customize" />
 
@@ -46,11 +44,16 @@
 
         <!-- 카카오 로그인 연동 2 -->
         <activity android:name=".LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+            <!--
+            <intent-filter>
+
+               <action android:name="android.intent.action.MAIN" />
+
+               <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
+            -->
         </activity>
 
         <!-- 카카오 로그인 연동 3 -->
@@ -82,8 +85,10 @@
         <activity android:name=".Room_Activity.GeofenceSettingsActivity_Triangle_6_6" />
         <activity android:name=".Room_Activity.GeofenceSettingsActivity_Triangle_3_3" />
         <activity android:name=".PaymentActivity" />
-        <activity android:name=".LoadingActivity"></activity>
-        <activity android:name=".Room_Activity.GeofenceSettingsActivity_Rectangle_6_6"></activity>
+        <activity android:name=".LoadingActivity" />
+        <activity android:name=".Room_Activity.GeofenceSettingsActivity_Rectangle_6_6" />
+        <activity android:name=".Room_Activity.GeofenceSettingsActivity_paldal1" />
+        <activity android:name=".CartCheckActivity"></activity>
     </application>
 
 </manifest>

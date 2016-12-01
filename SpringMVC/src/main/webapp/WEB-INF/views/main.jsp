@@ -17,8 +17,8 @@
 	
 	#title
 	{
-		margin-left:30%;
-		margin-top:30%;
+		margin-left:15%;
+		margin-top:15%;
 		width: 500px; 
 		height:500px; 
 		background-color: #555;
@@ -92,7 +92,7 @@
 		// 모니터링 화면
 		monitorBtn.onclick = function monitorBtnClicked()
 		{
-			location.href="http://192.168.43.97:8080/SpringMVC/geofence.do"
+			location.href="./geofence.do"
 		}
 		
 		// 결제 화면

@@ -48,24 +48,6 @@
     </item>
     <item
         is-multidex="true"
-        jar="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="e7f3132168957eefc46229fc32c3bd464642b71e">
-        <dex dex="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-ui-24.2.1_716f5e92cf19111a95afda2c877663096c05336f\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\exploded-aar\com.android.support\gridlayout-v7\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="4e6470fe5081bd76bb727ea9d0d9de373ac5940b">
-        <dex dex="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-gridlayout-v7-24.2.1_d3f9389f2a7e4505482171d9976151e629b91a08\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\jars\libs\internal_impl-24.2.1.jar"
         jumboMode="true"
         optimize="true"
@@ -84,6 +66,60 @@
     </item>
     <item
         is-multidex="true"
+        jar="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
+        <dex dex="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-utils-24.2.1_9d216671ca6733b1f409fed7fd4a78bd64954796\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\exploded-aar\com.kakao.sdk\util\1.1.6\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="60eadffd93e6f58843a131c288c35d2a9217c432">
+        <dex dex="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.kakao.sdk-util-1.1.6_1c66ffceedefb69a711094fd7fc58a18da419713\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\exploded-aar\com.estimote\sdk\0.13.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="7486889ec02f2bc90b62a2f7b685391f5fcb8be9">
+        <dex dex="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.estimote-sdk-0.13.0_f5c072a9e4834de5924f455d0aa21bde11acee8b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="ffea758ece5501f8a814055d9c16abece2192060">
+        <dex dex="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_68effada1774a660f5bdee5fcbcbab5e6e13f3e5\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="e7f3132168957eefc46229fc32c3bd464642b71e">
+        <dex dex="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-ui-24.2.1_716f5e92cf19111a95afda2c877663096c05336f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\exploded-aar\com.android.support\gridlayout-v7\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="4e6470fe5081bd76bb727ea9d0d9de373ac5940b">
+        <dex dex="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-gridlayout-v7-24.2.1_d3f9389f2a7e4505482171d9976151e629b91a08\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\bbong\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\24.2.1\support-annotations-24.2.1.jar"
         jumboMode="true"
         optimize="true"
@@ -99,15 +135,6 @@
         revision="24.0.1"
         sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
         <dex dex="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_1a1125014665f36f682dd5a35017fab9d3c5a277\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
-        <dex dex="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-utils-24.2.1_9d216671ca6733b1f409fed7fd4a78bd64954796\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -142,26 +169,8 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.1"
-        sha1="a248082fd4e42b4aa24ac0e7fdb5add739bf6659">
+        sha1="5270d53aa62a6c73fa4f460a3cda6e5b0cc0b7a7">
         <dex dex="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_bd168c758d02159cbca03c251ec99c5feba778c3\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\exploded-aar\com.kakao.sdk\util\1.1.6\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="60eadffd93e6f58843a131c288c35d2a9217c432">
-        <dex dex="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.kakao.sdk-util-1.1.6_1c66ffceedefb69a711094fd7fc58a18da419713\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\exploded-aar\com.estimote\sdk\0.13.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="7486889ec02f2bc90b62a2f7b685391f5fcb8be9">
-        <dex dex="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.estimote-sdk-0.13.0_f5c072a9e4834de5924f455d0aa21bde11acee8b\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -189,15 +198,6 @@
         revision="24.0.1"
         sha1="fc4dc423a7be644ddf117d26dcb7de9e0fea7437">
         <dex dex="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.kakao.sdk-auth-1.1.6_9c56f5f6117110515f719bc5dad6617ad5ce81cd\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="4017cdd1e2e1aab67f90e97756ba910b5eea1f8d">
-        <dex dex="D:\2016.09_2\Capstone\QuadcoreWorkspace\QuadCore\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_68effada1774a660f5bdee5fcbcbab5e6e13f3e5\classes.dex" />
     </item>
     <item
         is-multidex="true"

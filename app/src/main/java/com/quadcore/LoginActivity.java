@@ -3,6 +3,8 @@ package com.quadcore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
+
+import com.estimote.sdk.SystemRequirementsChecker;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.util.exception.KakaoException;
@@ -18,6 +20,12 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        /////////////////////////////////////////////////////////////////
+        // 블루투스 허용 메시지 팝업
+        ///////////////////////////////////////////////////////////////
+        SystemRequirementsChecker.checkWithDefaultDialogs(this);
+
 
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
@@ -60,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         final Intent intent = new Intent(this, SignupActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(intent);
+
         finish();
     }
 }

@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
+import com.quadcore.Room.Room_Paldal1;
 import com.quadcore.Room.Room_Rectangle_12_7;
 import com.quadcore.Room.Room_Rectangle_6_6;
 import com.quadcore.Room.Room_Triangle_3_3;
@@ -27,9 +28,10 @@ public class GeofenceView_main extends View {
     public Paint paint;
     public static int locatedBeaconCnt = 0;
     // 비콘 4개의 위치
-    public static Point3D bc1, bc2, bc3,bc4;
+    public static Point3D bc1, bc2, bc3, bc4;
     // 사용자 위치
     public static Point3D userLocation;
+
 
 
     ///////////////////////////////////////////////////////////////////////
@@ -53,8 +55,6 @@ public class GeofenceView_main extends View {
     protected void onDraw(Canvas canvas){
         super.onDraw(canvas);
         paint = new Paint();
-
-
 
 
         ///////////////////////////////////
@@ -105,14 +105,20 @@ public class GeofenceView_main extends View {
             screenRatio = Room_Triangle_3_3.screenRatio;
             drawGeofence_Triangle(canvas);
         }
+        else if(MainActivity.roomType == Constants._ROOM_TYPE_Paldal1)
+        {
+            screenRatio = Room_Paldal1.screenRatio;
+            startingPoint_y = 500;
+            drawGeofence_Paldal1(canvas);
+        }
 
         //////////////////////////////////////////////////////
-        // 사용자 위치 그리기
+        // 사용자 위치 그리기 - 모션으로 대체
         /////////////////////////////////////////////////////
         if(userLocation != null)
         {
-            paint.setColor(Color.BLACK);
-            myDrawCircle(canvas, userLocation.getX(), userLocation.getY(), Constants._BC_RADIUS);
+             paint.setColor(Color.BLACK);
+             myDrawCircle(canvas, userLocation.getX(), userLocation.getY(), Constants._BC_RADIUS);
         }
 
         ///////////////////////////////////////////////////////////
@@ -126,9 +132,16 @@ public class GeofenceView_main extends View {
             myDrawCircle(canvas, bc1.getX(), bc1.getY(),bc1.getR()*screenRatio);
             myDrawCircle(canvas, bc2.getX(), bc2.getY(),bc2.getR()*screenRatio);
             myDrawCircle(canvas, bc3.getX(), bc3.getY(),bc3.getR()*screenRatio);
-            myDrawCircle(canvas, bc4.getX(), bc4.getY(),bc4.getR()*screenRatio);
 
+            // 사각형이면
+            if( MainActivity.roomType == Constants._ROOM_TYPE_RECTANGLE_6_6
+             || MainActivity.roomType == Constants._ROOM_TYPE_RECTANGLE_12_7
+             || MainActivity.roomType == Constants._ROOM_TYPE_CUSTOMIZE )
+            {
+                myDrawCircle(canvas, bc4.getX(), bc4.getY(),bc4.getR()*screenRatio);
+            }
         }
+
 
         ///////////////////////////////////////////////////////
         // special zone 그리기
@@ -142,6 +155,55 @@ public class GeofenceView_main extends View {
                                   ,PaymentZone.actual_rightDown.getX(),PaymentZone.actual_rightDown.getY());
         }
 
+    }
+
+    ////////////////
+    // 팔달 1층
+    ////////////////
+    private void drawGeofence_Paldal1(Canvas canvas) {
+        ////////////////////////////////////////////////////////
+        // 지오펜스 그리기
+        // 설치된 비콘 갯수에 따라 비콘을 그려준다
+        ////////////////////////////////////////////////////////
+        //////////////////////
+        // 3개 원 그리기
+        //////////////////////
+        paint.setColor(Color.rgb(181,12,31));
+        myDrawCircle(canvas, bc1.getX(), bc1.getY(), Constants._BC_RADIUS);
+
+        paint.setColor(Color.rgb(255,135,0));
+        myDrawCircle(canvas, bc2.getX(), bc2.getY(), Constants._BC_RADIUS);
+
+        paint.setColor(Color.YELLOW);
+        myDrawCircle(canvas, bc3.getX(), bc3.getY(), Constants._BC_RADIUS);
+
+
+        ///////////////////////////////
+        // 지오펜스 둘레 그리기
+        ///////////////////////////////
+        paint.setColor(Color.BLACK);
+        paint.setStrokeWidth(5);
+
+        myDrawLine(canvas, 0, 0, bc1.getX()-Room_Paldal1.xPadding, 0);
+        myDrawLine(canvas, bc1.getX()-Room_Paldal1.xPadding, 0, bc1.getX()-Room_Paldal1.xPadding , bc1.getY()-Room_Paldal1.yPadding);
+        myDrawLine(canvas, bc1.getX()-Room_Paldal1.xPadding , bc1.getY()-Room_Paldal1.yPadding, bc1.getX()+Room_Paldal1.xPadding, bc1.getY()-Room_Paldal1.yPadding);
+        myDrawLine(canvas, bc1.getX()+Room_Paldal1.xPadding, bc1.getY()-Room_Paldal1.yPadding, bc1.getX()+Room_Paldal1.xPadding, bc1.getY());
+
+        myDrawLine(canvas, bc1.getX()+Room_Paldal1.xPadding, bc1.getY(), bc2.getX(), bc1.getY());
+        myDrawLine(canvas, bc2.getX(), bc1.getY(), bc2.getX(), bc2.getY());
+
+        myDrawLine(canvas, bc2.getX(), bc2.getY(), bc3.getX(), bc3.getY());
+        myDrawLine(canvas, bc3.getX(), bc3.getY(), 0,0);
+
+
+        ////////////////////////////////////////////////////////////////////////////////
+        // view width, height 실제 값 텍스트 출력 -> 위치 보정하기                *************************************************************************
+        ///////////////////////////////////////////////////////////////////////////////
+        paint.setColor(Color.BLACK);
+        paint.setTextSize(Constants._VIEW_CM_TEXT_SIZE);
+
+        myDrawText(canvas, String.format("%.0fcm", avgTopDist), Constants.viewWidthX,Constants.viewWidthY);
+        myDrawText(canvas, String.format("%.0fcm", avgRightDist), Constants.viewHeightX,Constants.viewHeightY);
     }
 
 
@@ -172,12 +234,12 @@ public class GeofenceView_main extends View {
         paint.setColor(Color.BLACK);
         paint.setStrokeWidth(5);
         myDrawLine(canvas, 0, 0
-                , bc3.getX(), 0);
-        myDrawLine(canvas, bc3.getX(), 0
-                , bc3.getX(), bc3.getY());
-        myDrawLine(canvas, bc3.getX(), bc3.getY()
+                , bc2.getX(), 0);
+        myDrawLine(canvas, bc2.getX(), 0
                 , bc2.getX(), bc2.getY());
         myDrawLine(canvas, bc2.getX(), bc2.getY()
+                , bc3.getX(), bc3.getY());
+        myDrawLine(canvas, bc3.getX(), bc3.getY()
                 , 0, 0);
 
         ////////////////////////////////////////////////////////////////////////////////

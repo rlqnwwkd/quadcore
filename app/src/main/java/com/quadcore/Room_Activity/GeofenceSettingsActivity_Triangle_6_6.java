@@ -156,7 +156,7 @@ public class GeofenceSettingsActivity_Triangle_6_6 extends AppCompatActivity {
                         + param_bc + "&" + param_id + "&" + param_name + "&" + param_zone + "&" + param_type);
 
                 ServerInfo.urlConnection = (HttpURLConnection) ServerInfo.url.openConnection();
-                ServerInfo.urlConnection.setConnectTimeout(3000);
+                ServerInfo.urlConnection.setConnectTimeout(Constants._SERVER_TIMEOUT);
 
                 int responseCode = ServerInfo.urlConnection.getResponseCode();
 

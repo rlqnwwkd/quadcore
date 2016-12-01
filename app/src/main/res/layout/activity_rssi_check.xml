@@ -12,7 +12,7 @@
 
 
     <TextView
-        android:text="Beacon RSSI 2"
+        android:text="Beacon RSSI 2 NON"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rssi1TextView"
@@ -21,16 +21,7 @@
         android:id="@+id/rssi2TextView" />
 
     <TextView
-        android:text="Beacon RSSI 3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rssi2TextView"
-        android:layout_alignStart="@+id/rssi2TextView"
-        android:layout_marginTop="29dp"
-        android:id="@+id/rssi3TextView" />
-
-    <TextView
-        android:text="Beacon RSSI 1"
+        android:text="Beacon RSSI 1 NON"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="22dp"
@@ -40,7 +31,7 @@
         android:layout_marginEnd="50dp" />
 
     <TextView
-        android:text="ICE"
+        android:text="BEACON 1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/rssi1TextView"
@@ -49,7 +40,7 @@
         android:id="@+id/textView" />
 
     <TextView
-        android:text="BLUEBERRY"
+        android:text="BEACON 2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/rssi3TextView"
@@ -57,7 +48,7 @@
         android:id="@+id/textView2" />
 
     <TextView
-        android:text="MINT"
+        android:text="BEACON 3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView3"
@@ -66,22 +57,31 @@
         android:layout_alignStart="@+id/textView2" />
 
     <TextView
-        android:text="BC4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:id="@+id/textView5"
-        android:layout_below="@+id/textView3"
-        android:layout_alignStart="@+id/textView3" />
-
-    <TextView
-        android:text="TextView"
+        android:text="Beacon RSSI 4 NON"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/rssi4TextView"
         android:layout_alignBaseline="@+id/textView5"
         android:layout_alignBottom="@+id/textView5"
         android:layout_alignStart="@+id/rssi3TextView" />
+
+    <TextView
+        android:text="Beacon RSSI 3 NON"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:id="@+id/rssi3TextView"
+        android:layout_below="@+id/rssi2TextView"
+        android:layout_alignStart="@+id/rssi2TextView" />
+
+    <TextView
+        android:text="BEACON 4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:id="@+id/textView5"
+        android:layout_below="@+id/textView3"
+        android:layout_alignStart="@+id/textView3" />
 
 
 </RelativeLayout>

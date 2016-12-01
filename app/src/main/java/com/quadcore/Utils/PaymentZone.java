@@ -1,6 +1,7 @@
 package com.quadcore.Utils;
 
 import android.content.ComponentName;
+import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -9,6 +10,11 @@ import android.webkit.WebViewClient;
 import com.quadcore.GeofenceView_main;
 import com.quadcore.GeofenceView_settings;
 import com.quadcore.MainActivity;
+import com.quadcore.R;
+import com.quadcore.Services.BackgroundBeaconRangingService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.quadcore.GeofenceView_settings.startingPoint_x;
 import static com.quadcore.GeofenceView_settings.startingPoint_y;
@@ -98,4 +104,24 @@ public class PaymentZone {
         screen_rightDown.setY(y2);
     }
 
+    // 근처에 있는 스티커 ID 얻어옴
+    public static List<Integer> getNearStickers() {
+        // 초기화
+        List<Integer> nearStickers = new ArrayList<Integer>();
+
+        if (BackgroundBeaconRangingService.stickerQueue == null || BackgroundBeaconRangingService.stickerQueue2 == null) {
+            // 상품 없음
+        } else {
+            // 신호가 잡히는 비콘 스티커들의 MAJOR를 모두 읽어서 nearStickers에 저장
+            long timeDiff = System.currentTimeMillis() - BackgroundBeaconRangingService.stickerQueue.getRecentTime();
+            if (timeDiff <= 5000) {
+                nearStickers.add(Constants.MAJOR_STICKER_1);
+            }
+            timeDiff = System.currentTimeMillis() - BackgroundBeaconRangingService.stickerQueue2.getRecentTime();
+            if (timeDiff <= 5000) {
+                nearStickers.add(Constants.MAJOR_STICKER_2);
+            }
+        }
+        return nearStickers;
+    }
 }

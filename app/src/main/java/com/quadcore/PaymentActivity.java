@@ -21,12 +21,39 @@ public class PaymentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
+        Intent intent = getIntent();
+
+        String stickerid_str="";
+        int[] stickerId = intent.getIntArrayExtra("stickerId");
+        for(int i=0;i<stickerId.length;i++)
+        {
+            if(i==0)
+            {
+                stickerid_str+=stickerId[i];
+            }
+            else
+            {
+                stickerid_str+=","+stickerId[i];
+            }
+        }
+
+        String param_id = "stickerId="+stickerid_str;
+        String param_user="";
+        if(MainActivity.userProfile == null)
+        {
+            param_user = "id=kbh3983&name=bong";
+
+        }
+        else
+        {
+            param_user = "id="+MainActivity.userProfile.getId()+"&name="+MainActivity.userProfile.getNickname();
+        }
 
         webview_payment = (WebView)findViewById(R.id.webview_payment);
         //webview_payment.setWebViewClient(new Webview_payment_browser());
         webview_payment.setWebViewClient(new MyWebViewClient());
         webview_payment.getSettings().setJavaScriptEnabled(true);
-        webview_payment.loadUrl(ServerInfo.paymentUrl);
+        webview_payment.loadUrl(ServerInfo.paymentUrl+"?"+param_id+"&"+param_user);
     }
 
     private class MyWebViewClient extends WebViewClient {

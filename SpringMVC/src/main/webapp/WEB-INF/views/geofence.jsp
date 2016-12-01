@@ -29,10 +29,14 @@
 			{
 				actualWidth = ${geofenceDTO.BC3X} - ${geofenceDTO.BC2X};
 			}
+			else if( ${geofenceDTO.type} == 5 )
+			{
+				actualWidth = ${geofenceDTO.BC2X} - ${geofenceDTO.BC3X};	
+			}
 			// 확대 
 			var screenRatio = screenWidth /  actualWidth;
 			var startingPoint_X =330;
-			var startingPoint_Y =( screenWidth ) /5.0;
+			var startingPoint_Y =330;
 			
 		
 			
@@ -93,8 +97,53 @@
 				{
 					drawGeofence_Triangle();
 				}
-				
+				else if(${geofenceDTO.type==5})
+				{
+					drawGeofence_Paldal();
+				}
+			
 			}
+
+			function drawGeofence_Paldal()
+			{
+				/*
+				alert("screenRatio : "+screenRatio +", startingPoint : "+startingPoint_X+","+startingPoint_Y+", bc : "
+						+${geofenceDTO.BC1X}+","+${geofenceDTO.BC1Y}
+						+${geofenceDTO.BC2X}+","+${geofenceDTO.BC2Y}
+						+${geofenceDTO.BC3X}+","+${geofenceDTO.BC3Y}
+						+${geofenceDTO.BC4X}+","+${geofenceDTO.BC4Y}
+				);
+				*/
+			
+		
+				// 지오펜스 그리기
+				drawCircle(${geofenceDTO.BC1X}, ${geofenceDTO.BC1Y}, 'red');
+				drawCircle(${geofenceDTO.BC2X}, ${geofenceDTO.BC2Y}, 'orange');
+				drawCircle(${geofenceDTO.BC3X}, ${geofenceDTO.BC3Y}, 'yellow');
+				
+			
+				
+				var xPadding=200;
+				var yPadding=300;
+				
+		
+				drawLine( 0, 0,  ${geofenceDTO.BC1X}-xPadding, 0);
+				drawLine( ${geofenceDTO.BC1X}-xPadding, 0, ${geofenceDTO.BC1X}-xPadding ,  ${geofenceDTO.BC1Y}-yPadding);
+				drawLine( ${geofenceDTO.BC1X}-xPadding , ${geofenceDTO.BC1Y}-yPadding, ${geofenceDTO.BC1X}+xPadding, ${geofenceDTO.BC1Y}-yPadding);
+				drawLine( ${geofenceDTO.BC1X}+xPadding, ${geofenceDTO.BC1Y}-yPadding, ${geofenceDTO.BC1X}+xPadding, ${geofenceDTO.BC1Y});
+				
+				drawLine( ${geofenceDTO.BC1X}+xPadding, ${geofenceDTO.BC1Y}, ${geofenceDTO.BC2X}, ${geofenceDTO.BC1Y});
+				drawLine( ${geofenceDTO.BC2X}, ${geofenceDTO.BC1Y}, ${geofenceDTO.BC2X}, ${geofenceDTO.BC2Y});
+
+				drawLine( ${geofenceDTO.BC2X}, ${geofenceDTO.BC2Y}, ${geofenceDTO.BC3X}, ${geofenceDTO.BC3Y});
+				drawLine( ${geofenceDTO.BC3X}, ${geofenceDTO.BC3Y}, 0,0);
+		        
+				
+				// 결제존 -> 그리는거 마저 하기
+				drawRectangle(${geofenceDTO.ZONE_X1},${geofenceDTO.ZONE_Y1},${geofenceDTO.ZONE_X2},${geofenceDTO.ZONE_Y2},'red');
+	
+			}
+			
 			
 			function drawGeofence_Triangle()
 			{

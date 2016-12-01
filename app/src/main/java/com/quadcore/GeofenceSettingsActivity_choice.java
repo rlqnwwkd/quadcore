@@ -10,6 +10,7 @@ import com.quadcore.Room_Activity.GeofenceSettingsActivity_Triangle_3_3;
 import com.quadcore.Room_Activity.GeofenceSettingsActivity_Triangle_6_6;
 import com.quadcore.Room_Activity.GeofenceSettingsActivity_Rectangle_12_7;
 import com.quadcore.Room_Activity.GeofenceSettingsActivity_Rectangle_6_6;
+import com.quadcore.Room_Activity.GeofenceSettingsActivity_paldal1;
 
 public class GeofenceSettingsActivity_choice extends AppCompatActivity {
 
@@ -23,6 +24,13 @@ public class GeofenceSettingsActivity_choice extends AppCompatActivity {
     public void onViewCustomizeClicked(View view)
     {
         final Intent intent = new Intent(this, GeofenceSettingsActivity_Customize.class);
+        startActivity(intent);
+    }
+
+    public void onSetting_paldal1Clicked(View view)
+    {
+
+        final Intent intent = new Intent(this, GeofenceSettingsActivity_paldal1.class);
         startActivity(intent);
     }
 

@@ -125,7 +125,7 @@ public class GeofenceSettingsActivity_Triangle_3_3 extends AppCompatActivity {
 
         GeofenceView_main.avgTopDist = Room_Triangle_3_3.xLength;
         GeofenceView_main.avgRightDist = Room_Triangle_3_3.yLength;
-        GeofenceView_main.screenRatio = Room_Triangle_6_6.screenRatio;
+        GeofenceView_main.screenRatio = Room_Triangle_3_3.screenRatio;
         ((GeofenceView_main) MainActivity.view).locatedBeaconCnt=3;
         MainActivity.roomType = Constants._ROOM_TYPE_TRIANGLE_3_3;
     }
@@ -158,7 +158,7 @@ public class GeofenceSettingsActivity_Triangle_3_3 extends AppCompatActivity {
                         + param_bc + "&" + param_id + "&" + param_name + "&" + param_zone + "&" + param_type);
 
                 ServerInfo.urlConnection = (HttpURLConnection) ServerInfo.url.openConnection();
-                ServerInfo.urlConnection.setConnectTimeout(3000);
+                ServerInfo.urlConnection.setConnectTimeout(Constants._SERVER_TIMEOUT);
 
                 int responseCode = ServerInfo.urlConnection.getResponseCode();
                 if (responseCode == HttpURLConnection.HTTP_OK)

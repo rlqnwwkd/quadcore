@@ -5,77 +5,105 @@
     android:id="@+id/activity_geofence_settings_choice"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.quadcore.GeofenceSettingsActivity_choice">
+    tools:context="com.quadcore.GeofenceSettingsActivity_choice"
+    android:background="@color/white">
 
-    <ScrollView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:background="@drawable/tiles"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:layout_height="wrap_content"
+        android:background="@color/white">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="400px"
+            android:scaleType="fitXY"
+            android:id="@+id/choiceImg"
+            app:srcCompat="@drawable/select_room"
+            style="?android:attr/borderlessButtonStyle"
+            android:background="#a0000000" />
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            style="?android:attr/borderlessButtonStyle">
 
-            <ImageView
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="700px"
-                android:padding="10px"
-                android:scaleType="fitXY"
-                android:id="@+id/viewCustomize"
-                android:src="@drawable/setting_customize"
-                android:onClick="onViewCustomizeClicked"
-                android:background="@drawable/custome_theme_1"/>
+                android:layout_height="match_parent">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="700px"
-                android:padding="10px"
-                android:scaleType="fitXY"
-                android:id="@+id/setting_rectangle_12_7"
-                android:src="@drawable/setting_rectangle_12_7"
-                android:onClick="onSetting_rectangle_12_7Clicked"
-                android:background="@drawable/custome_theme_1"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1000px"
+                    android:padding="10px"
+                    android:scaleType="fitXY"
+                    android:id="@+id/viewCustomize"
+                    android:src="@drawable/setting_customize"
+                    android:onClick="onViewCustomizeClicked"
+                    android:background="@color/bright_blue2"/>
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="700px"
-                android:padding="10px"
-                android:scaleType="fitXY"
-                android:id="@+id/setting_rectangle_6_6"
-                android:src="@drawable/setting_rectangle_6_6"
-                android:onClick="onSetting_rectangle_6_6Clicked"
-                android:background="@drawable/custome_theme_1"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1000px"
+                    android:padding="10px"
+                    android:scaleType="fitXY"
+                    android:id="@+id/setting_paldal1"
+                    android:src="@drawable/setting_paldal1"
+                    android:onClick="onSetting_paldal1Clicked"
+                    android:background="@color/bright_blue2"/>
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="700px"
-                android:padding="10px"
-                android:scaleType="fitXY"
-                android:id="@+id/setting_triangle_6_6"
-                android:src="@drawable/setting_triangle_6_6"
-                android:onClick="onSetting_triangle_6_6Clicked"
-                android:background="@drawable/custome_theme_1"/>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="700px"
-                android:padding="10px"
-                android:scaleType="fitXY"
-                android:id="@+id/setting_triangle_3_3"
-                android:src="@drawable/setting_triangle_3_3"
-                android:onClick="onSetting_triangle_3_3Clicked"
-                android:background="@drawable/custome_theme_1"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1000px"
+                    android:padding="10px"
+                    android:scaleType="fitXY"
+                    android:id="@+id/setting_triangle_6_6"
+                    android:src="@drawable/setting_triangle_6_6"
+                    android:onClick="onSetting_triangle_6_6Clicked"
+                    android:background="@color/bright_blue2"/>
 
 
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1000px"
+                    android:padding="10px"
+                    android:scaleType="fitXY"
+                    android:id="@+id/setting_rectangle_6_6"
+                    android:src="@drawable/setting_rectangle_6_6"
+                    android:onClick="onSetting_rectangle_6_6Clicked"
+                    android:background="@color/bright_blue2"/>
 
-    </ScrollView>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1000px"
+                    android:padding="10px"
+                    android:scaleType="fitXY"
+                    android:id="@+id/setting_rectangle_12_7"
+                    android:src="@drawable/setting_rectangle_12_7"
+                    android:onClick="onSetting_rectangle_12_7Clicked"
+                    android:background="@color/bright_blue2"/>
+
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1000px"
+                    android:padding="10px"
+                    android:scaleType="fitXY"
+                    android:id="@+id/setting_triangle_3_3"
+                    android:src="@drawable/setting_triangle_3_3"
+                    android:onClick="onSetting_triangle_3_3Clicked"
+                    android:background="@color/bright_blue2"/>
+
+
+            </LinearLayout>
+
+        </ScrollView>
+    </LinearLayout>
 </RelativeLayout>

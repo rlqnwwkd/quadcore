@@ -138,21 +138,21 @@ public class GeofenceSettingsActivity_Rectangle_6_6 extends AppCompatActivity {
         @Override
         public void run()
         {
-            Log.d(Constants.QUADCORE_LOG,"Room_12_7 : BeaconPositionTransferThread : start");
+            Log.d(Constants.QUADCORE_LOG,"Room_6_6 : BeaconPositionTransferThread : start");
             ///////////////////////////////////////////////////
             // WEB 서버와 연결 - 서버에게 설치된 비콘 위치 전송, 존위치 전송
             /////////////////////////////////////////////////
             // 파라미터 셋팅
             String server_response="";
-            String param_bc = "bcPositions="+Room_Rectangle_12_7.bc1Position.getX()+","+Room_Rectangle_12_7.bc1Position.getY()
-                    +","+Room_Rectangle_12_7.bc2Position.getX()+","+Room_Rectangle_12_7.bc2Position.getY()
-                    +","+Room_Rectangle_12_7.bc3Position.getX()+","+Room_Rectangle_12_7.bc3Position.getY()
-                    +","+Room_Rectangle_12_7.bc4Position.getX()+","+Room_Rectangle_12_7.bc4Position.getY();
+            String param_bc = "bcPositions="+Room_Rectangle_6_6.bc1Position.getX()+","+Room_Rectangle_6_6.bc1Position.getY()
+                    +","+Room_Rectangle_6_6.bc2Position.getX()+","+Room_Rectangle_6_6.bc2Position.getY()
+                    +","+Room_Rectangle_6_6.bc3Position.getX()+","+Room_Rectangle_6_6.bc3Position.getY()
+                    +","+Room_Rectangle_6_6.bc4Position.getX()+","+Room_Rectangle_6_6.bc4Position.getY();
             String param_id = "id="+ Constants.MAJOR_BEACON_1;
             String param_name = "name=counter";
-            String param_type = "type="+ Constants._ROOM_TYPE_RECTANGLE_12_7;
-            String param_zone = "zonePosition="+String.format("%.2f", Room_Rectangle_12_7.leftUp.getX())+","+String.format("%.2f",Room_Rectangle_12_7.leftUp.getY())
-                    +","+String.format("%.2f",Room_Rectangle_12_7.rightDown.getX())+","+String.format("%.2f",Room_Rectangle_12_7.rightDown.getY());
+            String param_type = "type="+ Constants._ROOM_TYPE_RECTANGLE_6_6;
+            String param_zone = "zonePosition="+String.format("%.2f", Room_Rectangle_6_6.leftUp.getX())+","+String.format("%.2f",Room_Rectangle_6_6.leftUp.getY())
+                    +","+String.format("%.2f",Room_Rectangle_6_6.rightDown.getX())+","+String.format("%.2f",Room_Rectangle_6_6.rightDown.getY());
 
 
 
@@ -168,7 +168,7 @@ public class GeofenceSettingsActivity_Rectangle_6_6 extends AppCompatActivity {
                 // 전송
                 ServerInfo.urlConnection = (HttpURLConnection) ServerInfo.url.openConnection();
                 // 타임아웃
-                ServerInfo.urlConnection.setConnectTimeout(3000);
+                ServerInfo.urlConnection.setConnectTimeout(Constants._SERVER_TIMEOUT);
                 // 결과
                 int responseCode = ServerInfo.urlConnection.getResponseCode();
 

@@ -87,6 +87,7 @@ public class BackgroundBeaconMonitoringService extends Service{
     {
         Log.d(Constants.QUADCORE_LOG,"Monitoring Service : onCreate()");
         beaconManager = new BeaconManager(getApplicationContext());
+
         beaconManager.setMonitoringListener(new BeaconManager.MonitoringListener() {
 
             @Override
@@ -143,6 +144,8 @@ public class BackgroundBeaconMonitoringService extends Service{
                 beaconManager.startMonitoring(region);
             }
         });
+
+        Log.d(Constants.QUADCORE_LOG,"Monitoring Service : start Beacon Monitoring END");
     }
 
 
@@ -241,7 +244,7 @@ public class BackgroundBeaconMonitoringService extends Service{
                 ServerInfo.url = new URL("http://"+ServerInfo.serverIP+":"+ServerInfo.serverPort+"/SpringMVC/selectGeofence.do?"+params);
                 ServerInfo.urlConnection = (HttpURLConnection)ServerInfo.url.openConnection();
                 // 3초간 서버 검색
-                ServerInfo.urlConnection.setConnectTimeout(3000);
+                ServerInfo.urlConnection.setConnectTimeout(Constants._SERVER_TIMEOUT);
 
                 int responseCode = ServerInfo.urlConnection.getResponseCode();
                 if(responseCode == HttpURLConnection.HTTP_OK){

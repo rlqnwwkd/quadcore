@@ -37,6 +37,7 @@ public class BackgroundBeaconRangingService extends Service {
     // 최신값 n개를 갖고있는 큐
     /////////////////////////////////////////////
     public static RecentDataQueue<Integer> bc1Queue,bc2Queue,bc3Queue,bc4Queue;
+    public static RecentDataQueue<Integer> stickerQueue, stickerQueue2;
 
 
     ///////////////////////////////////////////
@@ -60,10 +61,18 @@ public class BackgroundBeaconRangingService extends Service {
         bc2Queue = new RecentDataQueue<Integer>();
         bc3Queue = new RecentDataQueue<Integer>();
         bc4Queue = new RecentDataQueue<Integer>();
+        stickerQueue = new RecentDataQueue<Integer>();
+        stickerQueue2 = new RecentDataQueue<Integer>();
+
+
+
         bc1Queue.makeQueue(Constants._RECENT_QUEUE_SIZE);
         bc2Queue.makeQueue(Constants._RECENT_QUEUE_SIZE);
         bc3Queue.makeQueue(Constants._RECENT_QUEUE_SIZE);
         bc4Queue.makeQueue(Constants._RECENT_QUEUE_SIZE);
+        stickerQueue.makeQueue(Constants._RECENT_QUEUE_SIZE);
+        stickerQueue2.makeQueue(Constants._RECENT_QUEUE_SIZE);
+
 
         // 비콘매니저 - 비콘 인터페이스 역할 -> 전역으로 둬서, 모든 어플리케이션에서 사용하게끔
         beaconManager = new BeaconManager(getApplicationContext());
@@ -146,6 +155,15 @@ public class BackgroundBeaconRangingService extends Service {
                             case Constants.MAJOR_BEACON_3:
                                 bc3Queue.insertData(beacon.getRssi());
                                 break;
+                            case Constants.MAJOR_STICKER_1:
+                                stickerQueue.insertData(beacon.getRssi());
+                                break;
+                            case Constants.MAJOR_STICKER_2:
+                                stickerQueue2.insertData(beacon.getRssi());
+                                break;
+
+
+                            // 최신꺼 테스트 중
                             case Constants.MAJOR_BEACON_4:
                                 bc4Queue.insertData(beacon.getRssi());
                                 break;
@@ -169,6 +187,8 @@ public class BackgroundBeaconRangingService extends Service {
                                 case Constants.MAJOR_BEACON_3:
                                     RssiCheckActivity.rssi3TextView.setText(""+beacon.getRssi()+",Power:"+beacon.getMeasuredPower());
                                     break;
+
+                                // 최신 비콘 테스트
                                 case Constants.MAJOR_BEACON_4:
                                     RssiCheckActivity.rssi4TextView.setText(""+beacon.getRssi()+",Power:"+beacon.getMeasuredPower());
                                     break;
@@ -183,9 +203,6 @@ public class BackgroundBeaconRangingService extends Service {
             }
         });
     }
-
-
-
 
 
 

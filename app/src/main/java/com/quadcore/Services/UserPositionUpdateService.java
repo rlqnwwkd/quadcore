@@ -35,6 +35,8 @@ public class UserPositionUpdateService extends Service {
     // GeofenceView_main(사용자) / GeofenceView(관리자)를 구별하기 위한 플래그
     /////////////////////////////////////////////////////////////
     public static boolean isUser = false;
+    // public static Point3D lastUserPosition;
+    public static int lastUserPosition = 0;
 
 
     @Override
@@ -101,6 +103,11 @@ public class UserPositionUpdateService extends Service {
         // bcQueue(사용자의 rssi 최신값 n개)로 부터 사용자신호 평균rssi 구하기
         ///////////////////////////////////////////////////////////////////
         double avgRssi_1 = 0;
+        if(BackgroundBeaconRangingService.bc1Queue == null || BackgroundBeaconRangingService.bc2Queue == null || BackgroundBeaconRangingService.bc3Queue == null  )
+        {
+            return;
+        }
+
         for(int rssi : BackgroundBeaconRangingService.bc1Queue.getAllDatas())
         {
             avgRssi_1 += rssi;
@@ -145,13 +152,11 @@ public class UserPositionUpdateService extends Service {
         }
         else
         {
-            dist_1 = RssiToDist.getDistance(avgRssi_1);
-            dist_2 = RssiToDist.getDistance(avgRssi_2);
-            dist_3 = RssiToDist.getDistance(avgRssi_3);
-            dist_4 = RssiToDist.getDistance(avgRssi_4);
+            dist_1 = RssiToDist.getDistance(avgRssi_1, 1);
+            dist_2 = RssiToDist.getDistance(avgRssi_2, 2);
+            dist_3 = RssiToDist.getDistance(avgRssi_3, 3);
+            dist_4 = RssiToDist.getDistance(avgRssi_4, 4);
         }
-
-
 
         bc1.setR((float)dist_1);
         bc2.setR((float)dist_2);
@@ -177,11 +182,10 @@ public class UserPositionUpdateService extends Service {
 
 
         // activity_main의 rssiAndMeter 업데이트
-
         MainActivity.rssiAndMeter1.setText("R:"+String.format("%.2f",avgRssi_1));
         MainActivity.rssiAndMeter2.setText("R:"+String.format("%.2f",avgRssi_2));
         MainActivity.rssiAndMeter3.setText("R:"+String.format("%.2f",avgRssi_3));
-        MainActivity.rssiAndMeter4.setText("R:"+String.format("%.2f",avgRssi_4));
+        //MainActivity.rssiAndMeter4.setText("R:"+String.format("%.2f",avgRssi_4));
 
 
         //////////////////////////////////////////////////////////
@@ -189,85 +193,125 @@ public class UserPositionUpdateService extends Service {
         ///////////////////////////////////////////////////////////
         // 삼변측량 적용 - imm
         ////////////////////////////////////////////////////////////
-        userLocations = Trilateration.trilaterate(bc1,bc2,bc3);
+        // userLocations = Trilateration.trilaterate(bc1,bc2,bc3);
 
         //////////////////
         // 맵핑 추가 적용
         ////////////////////
-        userLocations = QuadCoreMapper.getUserPosition(userLocations, avgRssi_1,avgRssi_2,avgRssi_3, avgRssi_4);
+        Point3D userPos = QuadCoreMapper.getUserPosition(userLocations, avgRssi_1,avgRssi_2,avgRssi_3, avgRssi_4);
+
+
+        if(userPos != null)
+        {
+            if(userLocations !=null)
+            {
+                userLocations.clear();
+                userLocations.add(userPos);
+            }
+            else
+            {
+                userLocations = new ArrayList<Point3D>();
+                userLocations.add(userPos);
+            }
+        }
 
         /////////////////////////////////////////
         // TEST - 결제 테스트
         ///////////////////////////////////////////
-        // userLocations = new ArrayList<Point3D>();
-        // userLocations.add(new Point3D(300,800));
+        //userLocations = new ArrayList<Point3D>();
+        //userLocations.add(new Point3D(0,-100));
+
 
         if(isUser)
         {
             //////////////////////////
             // 사용자 뷰 업데이트
             ///////////////////////////////////////////////////////////
-            // 사용자의 위치 파악 못했을 경우 ( 겹치는 곳이 없을 경우 )
+            // 사용자의 위치 파악 못했을 경우 아무것도 안함
             /////////////////////////////////////////////////////////////
-            if(userLocations==null)
+            if(userPos==null)
             {
                 Log.d(Constants.QUADCORE_LOG, "UserPositionService : No user location found");
-                GeofenceView_main.userLocation=null;
-                MainActivity.view.invalidate();
+                //GeofenceView_main.userLocation=null;
+                //MainActivity.view.invalidate();
+                return;
             }
             ///////////////////////////////////////////////////////////
             // 위치 파악 된 경우
             /////////////////////////////////////////////////////////////
-            else
+
+            ///////////////////////////////////////////////////
+            // 맵 보정 - 맵을 벗어난 경우 안찍음
+            ///////////////////////////////////////////////////
+            boolean isOutOfBound = QuadCoreMapper.checkOutOfBound(userLocations.get(0));
+            // 맵보정 품
+            // isOutOfBound = false;
+
+            if(isOutOfBound)
+            {
+                // 맵 안에 없을 경우 끝
+                return;
+            }
+
+
+            // 이전 위치와 다를 경우 모션
+            if( lastUserPosition != userLocations.get(0).getZoneNumber() )
+            {
+                MainActivity.changeUserPosition(lastUserPosition, userLocations.get(0).getZoneNumber());
+            }
+
+            lastUserPosition = userLocations.get(0).getZoneNumber();
+
+
+            // 사용자 위치 업데이트
+            GeofenceView_main.userLocation = userLocations.get(0);
+            MainActivity.view.invalidate();
+
+            if(ServerInfo.isConnected == true)
+            {
+                ////////////////////////////////
+                // 서버로 사용자 위치 전송
+                //////////////////////////////
+                UserPositionTransferThread userPositionTransferThread = new UserPositionTransferThread();
+                userPositionTransferThread.start();
+            }
+
+
+            //////////////////////////////////////////////////////////
+            // 만약 사용자의 위치가 결제존에 5초이상 머무른다면 결제 시작
+            ///////////////////////////////////////////////////////////
+            // 유저 위치 : GeofenceView_main.userLocation
+            boolean isOnPaymentZone = PaymentZone.checkOnPaymentZone(GeofenceView_main.userLocation);
+
+
+            if(isOnPaymentZone == true)
+            {
+                PaymentZone.zoneCount++;
+            }
+            // Payment 실행
+            // ㅇ-----------------> PaymentZone.isPaid = false일 경우에만 실행,
+            // isPaid = false 사용자가 처음 존에 입장했을 때
+            if(PaymentZone.zoneCount > Constants._PAYMENT_ZONE_DURATION)
             {
 
-                GeofenceView_main.userLocation = userLocations.get(0);
-                MainActivity.view.invalidate();
-
-                if(ServerInfo.isConnected == true)
+                // 물건이 근처에 있으면
+                long timeDiff = System.currentTimeMillis() - BackgroundBeaconRangingService.stickerQueue.getRecentTime();
+                if( timeDiff <= 5000 )
                 {
-                    ////////////////////////////////
-                    // 서버로 사용자 위치 전송
-                    //////////////////////////////
-                    UserPositionTransferThread userPositionTransferThread = new UserPositionTransferThread();
-                    userPositionTransferThread.start();
-                }
-                // 테스트
-                else
-                {
-
-                }
-
-                //////////////////////////////////////////////////////////
-                // 만약 사용자의 위치가 결제존에 5초이상 머무른다면 결제 시작
-                ///////////////////////////////////////////////////////////
-                // 유저 위치 : GeofenceView_main.userLocation
-                boolean isOnPaymentZone = PaymentZone.checkOnPaymentZone(GeofenceView_main.userLocation);
-
-                Log.d(Constants.QUADCORE_LOG, "UserPositionService : user location : "+GeofenceView_main.userLocation.getX()+","+GeofenceView_main.userLocation.getY()
-                        +", PaymentZone : "+PaymentZone.actual_leftUp.getX()+","+PaymentZone.actual_leftUp.getY()+","+PaymentZone.actual_rightDown.getX()+","+PaymentZone.actual_rightDown.getY()
-                        +", isOnPaymentZone : "+isOnPaymentZone);
-
-                if(isOnPaymentZone == true)
-                {
-                    PaymentZone.zoneCount++;
-                }
-                // Payment 실행
-                // ㅇ-----------------> PaymentZone.isPaid = false일 경우에만 실행,
-                // isPaid = false 사용자가 처음 존에 입장했을 때
-                if(PaymentZone.zoneCount > Constants._PAYMENT_ZONE_DURATION)
-                {
-                    if(PaymentZone.isPaid == false) {
+                    if (PaymentZone.isPaid == false) {
                         PaymentZone.zoneCount = 0;
                         ////////////////////////////
                         // 결제 팝업 뛰우기
                         //////////////////////////
-                        MainActivity.popupThePayment();
-                        PaymentZone.isPaid=true;
+                        // 현재 근처에 있는 스티커 아이디를 파라미터로 보낸다
+                        List<Integer> nearStickers = PaymentZone.getNearStickers();
+                        MainActivity.popupThePayment(nearStickers);
+                        PaymentZone.isPaid = true;
                     }
                 }
-
             }
+
+
         }
         else
         {
@@ -277,15 +321,16 @@ public class UserPositionUpdateService extends Service {
             if(userLocations==null)
             {
                 // 사용자의 위치 파악 못했을 경우 ( 겹치는 곳이 없을 경우 )
-                Log.d("UserPositionService","No user location found");
+                Log.d(Constants.QUADCORE_LOG,"No user location found");
                 GeofenceView_settings.userLocation=null;
                 GeofenceSettingsActivity_Customize.view.invalidate();
             }
             // 위치 파악 된 경우
             else
             {
+
+
                 GeofenceView_settings.userLocation = userLocations.get(0);
-                Log.d("UserPositionService", "user location : "+ GeofenceView_settings.userLocation.getX()+","+ GeofenceView_settings.userLocation.getY());
                 GeofenceSettingsActivity_Customize.view.invalidate();
             }
         }
@@ -344,11 +389,22 @@ public class UserPositionUpdateService extends Service {
             String server_response="";
             String param1 = "userPosition="+GeofenceView_main.userLocation.getX()+","+GeofenceView_main.userLocation.getY();
             String param2 = "id="+MainActivity.geofenceId;
+            String param_name = "";
+            if(MainActivity.userProfile != null)
+            {
+                param_name = "userId="+MainActivity.userProfile.getId();
+            }
+            else
+            {
+                param_name = null;
+            }
+
+            param_name="userId=kbh3983";
 
             try{
                 ServerInfo.url = new URL("http://"+ServerInfo.serverIP+":"+ServerInfo.serverPort
                         +"/SpringMVC/insertUserLocation.do?"
-                        +param1+"&"+param2);
+                        +param1+"&"+param2+"&"+param_name);
 
                 ServerInfo.urlConnection = (HttpURLConnection)ServerInfo.url.openConnection();
 

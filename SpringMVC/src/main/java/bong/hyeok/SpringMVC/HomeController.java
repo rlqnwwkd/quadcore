@@ -35,11 +35,11 @@ import dao.userLocation.UserLocationDTO;
 @Controller
 public class HomeController {
 
-	// geofence 뷰가 보여주는 지오펜스 아이디
+	// geofence 뷰가 보여주는 지오펜스 아이디 864 
 	private static final int _GEOFENCE_ID = 46032;
 
 	// 사용자가 _TIME_OVER_GEOFENCE 시간 만큼 해당 GeofenceId에 없으면 없는 것으로 간주한다
-	private static final int _TIME_OVER_GEOFENCE = 1;
+	private static final int _TIME_OVER_GEOFENCE = 100;
 	
 	// DI
 	@Autowired
@@ -128,9 +128,13 @@ public class HomeController {
 		long geofenceId = Long.parseLong(params.get("geofenceId"));
 		String userLocations="";
 		
+		UserLocationDTO dto = new UserLocationDTO();
+		dto.setUserId("kbh3983");
+		dto.setGeofenceId(geofenceId);
 		// geofenceId에 있는 사용자 ID마다 해당 사용자의 최신 위치를 받아온다
-		List<UserLocationDTO> recentUserLocationList = userLocationDAO.getRecentUsersLocation(geofenceId);
+		List<UserLocationDTO> recentUserLocationList = userLocationDAO.getRecentUsersLocation(dto);
 		
+		//System.out.println(recentUserLocationList.size()+",id:"+geofenceId+"zzzzzzzzzzzzzz");
 		// 날짜 형식
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-kk-mm-ss.SSS");
 		
@@ -154,11 +158,15 @@ public class HomeController {
 			////////////////////////////////////////////////
 			// 일정시간 이상 geofenceId에 없으면 사용자는 없는 것으로 간주한다
 			///////////////////////////////////////////////
+			/*
+			 * kbh3983만 하기로 -> 
 			timeDiffInSec = timeDiffInSec/(1000);
 			if(timeDiffInSec > _TIME_OVER_GEOFENCE)
 			{
 				deleteList.add(recentUser);
 			}
+			*/
+			
 		}
 		// 제거
 		recentUserLocationList.removeAll(deleteList);
@@ -181,6 +189,7 @@ public class HomeController {
 			cnt++;
 		}
 		
+		//System.out.println(userLocations);
 		// ex) userLocations = "userId1,x1,y1,userId2,x2,y2"
 		return userLocations;
 	}
@@ -223,7 +232,7 @@ public class HomeController {
 	@ResponseBody
 	public String insertUserLocation(@RequestParam Map<String, String> params)
 	{
-		String response="INSERT:USER LOCATION: OK";
+		String response="INSERT:USER LOCATION TRANSFER: OK";
 		String userId = params.get("userId");
 		long id = Long.parseLong(params.get("id"));
 		double userX = Double.parseDouble(params.get("userPosition").split(",")[0]);

@@ -15,14 +15,14 @@
                                 )
     </insert>
     
-    <select id="getRecentUsersLocation" parameterType="Long" resultType="userLocationDTO">
+    <select id="getRecentUsersLocation" parameterType="userLocationDTO" resultType="userLocationDTO">
     	<!-- 각 유저마다 최신 위치 1개씩 얻어온다 -->
     	SELECT X,Y,USERID,DATE2,GEOFENCEID
 		  FROM (
 		        SELECT X,Y,USERID,DATE2, GEOFENCEID,
 		               ROW_NUMBER() OVER(PARTITION BY USERID ORDER BY DATE2 DESC) rn
 		          FROM USERLOCATION
-		         WHERE GEOFENCEID=#{geofenceId}
+		         WHERE GEOFENCEID=#{geofenceId} AND USERID=#{userId}
 		        ) recent
 		 WHERE rn = 1
     </select>

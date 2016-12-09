@@ -6,6 +6,6 @@ public interface UserLocationDAO {
 
 	public void insertUserLocation(UserLocationDTO userLocationDTO);
 
-	public List<UserLocationDTO> getRecentUsersLocation(long geofenceId);
+	public List<UserLocationDTO> getRecentUsersLocation(UserLocationDTO userLocationDTO);
 
 }

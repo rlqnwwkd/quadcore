@@ -17,8 +17,8 @@ public class UserLocationDAOMyBatis implements UserLocationDAO{
 
 
 	@Override
-	public List<UserLocationDTO> getRecentUsersLocation(long geofenceId) {
-		return sqlSession.selectList("getRecentUsersLocation", geofenceId);
+	public List<UserLocationDTO> getRecentUsersLocation(UserLocationDTO userLocationDTO) {
+		return sqlSession.selectList("getRecentUsersLocation", userLocationDTO);
 	}
 	
 	
